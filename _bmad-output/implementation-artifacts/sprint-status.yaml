@@ -33,8 +33,8 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # Epic 1: Project Foundation
-  epic-1: backlog
-  1-1-project-setup: backlog
+  epic-1: in-progress
+  1-1-project-setup: review
   1-2-clean-architecture-structure: backlog
   1-3-database-configuration: backlog
   1-4-error-handling-foundation: backlog
@@ -67,9 +67,9 @@ development_status:
 summary:
   total_epics: 4
   total_stories: 16
-  epics_in_progress: 0
+  epics_in_progress: 1
   epics_done: 0
   stories_done: 0
   stories_ready_for_dev: 0
   stories_in_progress: 0
-  stories_in_review: 0
+  stories_in_review: 1
