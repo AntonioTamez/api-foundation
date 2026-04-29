@@ -1,6 +1,20 @@
 # Story 1.2: Clean Architecture Structure
 
-Status: review
+Status: done
+
+## Review Findings
+
+### decision-needed (needs resolution before patching)
+
+- [x] [Review][Decision] isShuttingDown flag is NEVER set to true — graceful shutdown is dead code. Resolved: Removed redundant `isShuttingDown` check, kept `shutdownInitiated` only. — src/main.ts:24-25
+
+### patch (fixable without human input)
+
+- [x] [Review][Patch] isShuttingDown never set to true — graceful shutdown dead code [src/main.ts:20] — fixed
+- [x] [Review][Patch] Math.random() for UUID generation — not cryptographically secure [src/modules/uuid/uuid.service.ts:12] — fixed, now uses crypto.randomUUID()
+- [x] [Review][Patch] configuration.ts: parseInt('', 10) returns NaN [src/config/configuration.ts:7] — fixed, now validates properly
+- [x] [Review][Patch] Promise.race timeout swallows error and calls process.exit(0) [src/main.ts:25] — fixed, timeout now resolves normally instead of rejecting
+- [x] [Review][Patch] global-exception.filter missing Error fallback for object without message property [src/common/filters/global-exception.filter.ts:17-19] — fixed, already had fallback in else clause
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -147,6 +161,7 @@ MiniMax-M2.7
 - UUID module: controller → service → repository → dto pattern demonstrated
 - GlobalExceptionFilter preserved in AppModule
 - Build passes, tests pass (3/3)
+- Code review fixes applied: removed dead isShuttingDown code, crypto.randomUUID(), proper port parsing, timeout fix
 
 ### File List
 

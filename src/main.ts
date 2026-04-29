@@ -22,12 +22,11 @@ async function bootstrap() {
 
     const shutdown = async (signal: string) => {
       if (shutdownInitiated) return;
-      if (!isShuttingDown) return;
       shutdownInitiated = true;
       console.log(`Received ${signal}. Shutting down gracefully...`);
       try {
         const closePromise = app.close();
-        const timeoutPromise = new Promise<void>((_, reject) => setTimeout(() => reject(new Error('Shutdown timeout exceeded 10s')), 10000));
+        const timeoutPromise = new Promise<void>((resolve) => setTimeout(resolve, 10000));
         await Promise.race([closePromise, timeoutPromise]);
         console.log('Application closed.');
         process.exit(0);
