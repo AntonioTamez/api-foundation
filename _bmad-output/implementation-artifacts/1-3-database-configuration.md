@@ -1,6 +1,6 @@
 # Story 1.3: Database Configuration
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -150,6 +150,30 @@ MiniMax-M2.7
 - src/app.module.ts (modified)
 - .env.example (new)
 - .gitignore (modified)
+
+### Review Findings
+
+- [x] [Review][Patch] synchronize:true risks data loss - no environment check [src/app.module.ts:13]
+- [x] [Review][Patch] Empty string DATABASE_PATH bypasses fallback [src/app.module.ts:11]
+- [x] [Review][Patch] No URL validation at application layer [src/database/entities/url.entity.ts:14]
+- [x] [Review][Patch] No shortCode format validation (regex) [src/database/entities/url.entity.ts:17]
+- [x] [Review][Patch] db/ directory not auto-created on fresh clone [src/app.module.ts:11]
+- [x] [Review][Patch] No connection timeout/retry config [src/app.module.ts:9-14]
+- [x] [Review][Patch] Missing URL/entity length boundary tests [src/database/entities/url.entity.spec.ts]
+- [x] [Review][Patch] No transaction isolation in unique constraint test [src/database/entities/url.entity.spec.ts:48]
+- [x] [Review][Defer] No index on originalUrl [src/database/entities/url.entity.ts] — deferred, pre-existing issue not caused by current change
+
+### Review Findings (Original - Patched)
+
+- [ ] [Review][Patch] synchronize:true risks data loss - no environment check [src/app.module.ts:13]
+- [ ] [Review][Patch] Empty string DATABASE_PATH bypasses fallback [src/app.module.ts:11]
+- [ ] [Review][Patch] No URL validation at application layer [src/database/entities/url.entity.ts:14]
+- [ ] [Review][Patch] No shortCode format validation (regex) [src/database/entities/url.entity.ts:17]
+- [ ] [Review][Patch] db/ directory not auto-created on fresh clone [src/app.module.ts:11]
+- [ ] [Review][Patch] No connection timeout/retry config [src/app.module.ts:9-14]
+- [ ] [Review][Patch] Missing URL/entity length boundary tests [src/database/entities/url.entity.spec.ts]
+- [ ] [Review][Patch] No transaction isolation in unique constraint test [src/database/entities/url.entity.spec.ts:48]
+- [x] [Review][Defer] No index on originalUrl [src/database/entities/url.entity.ts] — deferred, pre-existing issue not caused by current change
 
 ## Change Log
 

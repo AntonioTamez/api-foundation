@@ -7,3 +7,7 @@
 - **emitDecoratorMetadata enabled but reflect-metadata not imported** — src/main.ts:1 — silently does nothing at runtime
 - **No tests in codebase** — N/A — zero confidence beyond manual verification
 - **GlobalExceptionFilter not in Story 1.1 acceptance criteria** — scope creep for a project setup story — src/app.module.ts:3
+
+## Deferred from: code review of story 1-3-database-configuration (2026-04-29)
+
+- **No index on originalUrl** — queries on original_url column will do full table scans; will need index when URL shortener is implemented
