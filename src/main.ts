@@ -2,8 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  let isShuttingDown = false;
-    let shutdownInitiated = false;
+  let shutdownInitiated = false;
 
   try {
     const app = await NestFactory.create(AppModule);

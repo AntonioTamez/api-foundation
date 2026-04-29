@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UuidRepository {
-  async create(uuid: string): Promise<void> {
+  async create(_uuid: string): Promise<void> {
     return;
   }
 
