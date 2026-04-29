@@ -44,6 +44,9 @@ test-results/
 # Optional npm cache
 .npm
 
+# SQLite database
+db/
+
 # Optional eslint cache
 .eslintcache
 

@@ -36,7 +36,7 @@ development_status:
   epic-1: in-progress
   1-1-project-setup: done
   1-2-clean-architecture-structure: done
-  1-3-database-configuration: ready-for-dev
+  1-3-database-configuration: review
   1-4-error-handling-foundation: backlog
   1-5-ci-cd-pipeline: backlog
   epic-1-retrospective: optional

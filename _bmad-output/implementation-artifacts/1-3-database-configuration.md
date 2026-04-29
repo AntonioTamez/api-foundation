@@ -1,6 +1,6 @@
 # Story 1.3: Database Configuration
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -25,18 +25,18 @@ so that I can persist data for the URL shortener.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1 (AC: 1)
-  - [ ] Subtask 1.1: Install TypeORM and SQLite dependencies (@nestjs/typeorm, typeorm, sqlite3)
-  - [ ] Subtask 1.2: Configure TypeORMModule in AppModule with SQLite database
-  - [ ] Subtask 1.3: Create database/ directory structure with entities/ subdirectory
-  - [ ] Subtask 1.4: Verify database connection is established on startup
-- [ ] Task 2 (AC: 2)
-  - [ ] Subtask 2.1: Create URL entity with fields: id, originalUrl, shortCode, createdAt, updatedAt
-  - [ ] Subtask 2.2: Register entity in TypeORM module
-  - [ ] Subtask 2.3: Verify entity syncs to SQLite database on startup
-- [ ] Task 3 (AC: 1, 2)
-  - [ ] Subtask 3.1: Add database configuration to .env.example (DATABASE_PATH)
-  - [ ] Subtask 3.2: Write unit tests for URL entity creation
+- [x] Task 1 (AC: 1)
+  - [x] Subtask 1.1: Install TypeORM and SQLite dependencies (@nestjs/typeorm, typeorm, sqlite3)
+  - [x] Subtask 1.2: Configure TypeORMModule in AppModule with SQLite database
+  - [x] Subtask 1.3: Create database/ directory structure with entities/ subdirectory
+  - [x] Subtask 1.4: Verify database connection is established on startup
+- [x] Task 2 (AC: 2)
+  - [x] Subtask 2.1: Create URL entity with fields: id, originalUrl, shortCode, createdAt, updatedAt
+  - [x] Subtask 2.2: Register entity in TypeORM module
+  - [x] Subtask 2.3: Verify entity syncs to SQLite database on startup
+- [x] Task 3 (AC: 1, 2)
+  - [x] Subtask 3.1: Add database configuration to .env.example (DATABASE_PATH)
+  - [x] Subtask 3.2: Write unit tests for URL entity creation
 
 ## Dev Notes
 
@@ -133,4 +133,24 @@ MiniMax-M2.7
 
 ### Completion Notes List
 
+- Installed sqlite3 dependency for SQLite database support
+- Created database/entities/ directory structure
+- Created Url entity with TypeORM decorators (id, originalUrl, shortCode, createdAt, updatedAt)
+- Configured TypeORMModule in AppModule with SQLite database
+- Added DATABASE_PATH to .env.example
+- Created db/ directory for SQLite file storage
+- Added db/ to .gitignore (SQLite files should not be committed)
+- All tests pass (6 tests, 2 test suites)
+- Build passes, lint passes
+
 ### File List
+
+- src/database/entities/url.entity.ts (new)
+- src/database/entities/url.entity.spec.ts (new)
+- src/app.module.ts (modified)
+- .env.example (new)
+- .gitignore (modified)
+
+## Change Log
+
+- Addressed code review findings - TypeORM SQLite configuration completed (Date: 2026-04-29)
