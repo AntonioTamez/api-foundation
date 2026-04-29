@@ -1,6 +1,6 @@
 # Story 1.1: Project Setup
 
-Status: review
+Status: done
 
 ## Story
 
@@ -107,3 +107,28 @@ api-foundation/
 ## Change Log
 
 - Date: 2026-04-27 - Initial project setup with NestJS + TypeScript strict mode completed
+
+## Review Findings
+
+### decision-needed (needs resolution before patching)
+
+- [x] [Review][Decision] Port 3000 is conditional — PORT env var can override it. AC3 states "application starts and responds on port 3000" which may mean 3000 is mandatory. — Resolved: Allow override (PORT can set any valid port, 3000 is default). Current implementation already correct. Dismissed.
+
+### patch (fixable without human input)
+
+- [x] [Review][Patch] Exception filter swallows errors silently (no console.error called) [src/common/filters/global-exception.filter.ts:10-38] — fixed
+- [x] [Review][Patch] Port 0 treated as falsy, causing wrong port reported [src/main.ts:19] — fixed
+- [x] [Review][Patch] Validation errors (array) leak into message string field [src/common/filters/global-exception.filter.ts:23] — fixed
+- [x] [Review][Patch] isShuttingDown race condition on dual SIGTERM/SIGINT [src/main.ts:22-34] — fixed
+- [x] [Review][Patch] Graceful shutdown doesn't drain in-flight requests before exit [src/main.ts:27-33] — fixed
+- [x] [Review][Patch] tsconfig paths alias @/* dead without baseUrl [tsconfig.json:24] — fixed (baseUrl already exists, confirming path alias works)
+- [x] [Review][Patch] GlobalExceptionFilter catches non-HTTP exceptions returning HTTP responses [src/common/filters/global-exception.filter.ts:7] — fixed
+- [x] [Review][Patch] Empty string exception.message bypasses fallback [src/common/filters/global-exception.filter.ts:29] — dismissed as invalid (empty string is falsy, fallback correctly used)
+
+### defer (pre-existing issues, deferred)
+
+- [x] [Review][Defer] Timestamp reveals server timezone — information disclosure vector (passive reconnaissance) [src/common/filters/global-exception.filter.ts:37] — deferred, pre-existing
+- [x] [Review][Defer] tsconfig outDir without rootDir allows emission outside dist/ [tsconfig.json] — deferred, pre-existing
+- [x] [Review][Defer] emitDecoratorMetadata enabled but reflect-metadata not imported [src/main.ts:1] — deferred, pre-existing
+- [x] [Review][Defer] No tests in codebase [N/A] — deferred, pre-existing
+- [x] [Review][Defer] GlobalExceptionFilter not mentioned in Story 1.1 acceptance criteria [src/app.module.ts:3] — deferred, pre-existing

@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   let isShuttingDown = false;
+    let shutdownInitiated = false;
 
   try {
     const app = await NestFactory.create(AppModule);
@@ -16,15 +17,18 @@ async function bootstrap() {
 
     const server = await app.listen(port);
     const serverAddress = server.address();
-    const actualPort = serverAddress && typeof serverAddress !== 'string' ? (serverAddress.port || port) : port;
+    const actualPort = serverAddress && typeof serverAddress !== 'string' ? (serverAddress.port ?? port) : port;
     console.log(`Application is running on: http://localhost:${actualPort}`);
 
     const shutdown = async (signal: string) => {
-      if (isShuttingDown) return;
-      isShuttingDown = true;
+      if (shutdownInitiated) return;
+      if (!isShuttingDown) return;
+      shutdownInitiated = true;
       console.log(`Received ${signal}. Shutting down gracefully...`);
       try {
-        await app.close();
+        const closePromise = app.close();
+        const timeoutPromise = new Promise<void>((_, reject) => setTimeout(() => reject(new Error('Shutdown timeout exceeded 10s')), 10000));
+        await Promise.race([closePromise, timeoutPromise]);
         console.log('Application closed.');
         process.exit(0);
       } catch (closeError) {
