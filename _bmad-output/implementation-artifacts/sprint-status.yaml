@@ -35,7 +35,7 @@ development_status:
   # Epic 1: Project Foundation
   epic-1: in-progress
   1-1-project-setup: done
-  1-2-clean-architecture-structure: backlog
+  1-2-clean-architecture-structure: review
   1-3-database-configuration: backlog
   1-4-error-handling-foundation: backlog
   1-5-ci-cd-pipeline: backlog

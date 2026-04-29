@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { UuidModule } from './modules/uuid/uuid.module';
 
 @Module({
-  imports: [],
+  imports: [UuidModule],
   controllers: [],
   providers: [
     {
