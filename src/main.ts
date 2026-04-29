@@ -7,32 +7,34 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
     const portEnv = process.env.PORT;
-    const port = portEnv ? parseInt(portEnv.trim(), 10) : 3000;
+    const parsedPort = portEnv ? parseInt(portEnv.trim(), 10) : NaN;
+    const port = isNaN(parsedPort) ? 3000 : parsedPort;
 
-    if (isNaN(port) || port < 0 || port > 65535) {
+    if (port < 0 || port > 65535) {
       throw new Error(`Invalid PORT environment variable: ${portEnv}. Must be a number between 0 and 65535.`);
     }
 
     const server = await app.listen(port);
     const serverAddress = server.address();
-    const actualPort = serverAddress && typeof serverAddress !== 'string' ? serverAddress.port : port;
+    const actualPort = serverAddress && typeof serverAddress !== 'string' ? (serverAddress.port || port) : port;
     console.log(`Application is running on: http://localhost:${actualPort}`);
 
     const shutdown = async (signal: string) => {
       if (isShuttingDown) return;
       isShuttingDown = true;
       console.log(`Received ${signal}. Shutting down gracefully...`);
-      await app.close();
-      console.log('Application closed.');
-      process.exit(0);
+      try {
+        await app.close();
+        console.log('Application closed.');
+        process.exit(0);
+      } catch (closeError) {
+        console.error('Error during shutdown:', closeError instanceof Error ? closeError.message : closeError);
+        process.exit(1);
+      }
     };
 
-    try {
-      process.on('SIGTERM', () => shutdown('SIGTERM'));
-      process.on('SIGINT', () => shutdown('SIGINT'));
-    } catch {
-      console.warn('Could not register signal handlers.');
-    }
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGINT', () => shutdown('SIGINT'));
   } catch (error) {
     console.error('Failed to start application:', error instanceof Error ? error.message : error);
     process.exit(1);
