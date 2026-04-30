@@ -37,7 +37,7 @@ development_status:
   1-1-project-setup: done
   1-2-clean-architecture-structure: done
   1-3-database-configuration: done
-  1-4-error-handling-foundation: backlog
+  1-4-error-handling-foundation: review
   1-5-ci-cd-pipeline: backlog
   epic-1-retrospective: optional
 
