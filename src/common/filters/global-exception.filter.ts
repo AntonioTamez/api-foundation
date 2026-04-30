@@ -27,16 +27,16 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
 
-      if (typeof exceptionResponse === 'object' && exceptionResponse !== null) {
+      if (typeof exceptionResponse === 'object' && exceptionResponse !== null && !Array.isArray(exceptionResponse) && !(exceptionResponse instanceof Date) && !(exceptionResponse instanceof RegExp)) {
         const resp = exceptionResponse as Record<string, unknown>;
         code = (resp.code as string) || this.mapStatusToCode(status);
         message = (resp.message as string) || exception.message || this.getDefaultMessage(status);
 
-        if (resp.details) {
+        if (typeof resp.details === 'object' && resp.details !== null) {
           details = resp.details as Record<string, unknown>;
         } else if (Array.isArray(resp.message)) {
           details = { messages: resp.message };
-          message = resp.message.join(', ');
+          message = resp.message.filter(m => typeof m === 'string').join(', ') || message;
         }
       } else if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
@@ -45,8 +45,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     } else if (exception instanceof Error) {
       message = exception.message || message;
       this.logger.error(`Unhandled exception: ${message}`, exception.stack);
-    } else {
+    } else if (exception instanceof Error) {
+      message = exception.message || message;
+      this.logger.error(`Unhandled exception: ${message}`, exception.stack);
+    } else if (exception !== null) {
       this.logger.error(`Unknown exception type: ${String(exception)}`);
+    } else {
+      this.logger.error('Unknown exception type: null');
     }
 
     const errorResponse: ErrorResponse = {
@@ -59,6 +64,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     if (isProduction && status >= 500) {
       errorResponse.error.message = 'An unexpected error occurred';
+      errorResponse.error.details = {};
     }
 
     response.status(status).json(errorResponse);

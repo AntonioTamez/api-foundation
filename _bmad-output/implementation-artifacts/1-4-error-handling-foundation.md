@@ -1,6 +1,6 @@
 # Story 1.4: Error Handling Foundation
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -155,3 +155,19 @@ MiniMax-M2.7
 ## Change Log
 
 - Initial implementation of Story 1.4: Error Handling Foundation (Date: 2026-04-29)
+
+### Review Findings
+
+- [x] [Review][Patch] Typo `UNATHORIZED` should be `UNAUTHORIZED` in getDefaultMessage [global-exception.filter.ts:91] — fixed
+- [x] [Review][Patch] Duplicate test with contradictory status expectations (UNPROCESSABLE_ENTITY vs BAD_REQUEST) [global-exception.filter.spec.ts:91-115] — fixed (no duplicate found)
+- [x] [Review][Patch] Test asserts non-existent `error.error` instead of `error.message` [global-exception.filter.spec.ts:262] — fixed (test was already correct)
+- [x] [Review][Patch] `null` exception becomes string `"null"` in logs [global-exception.filter.ts:53] — fixed
+- [x] [Review][Patch] Non-plain objects (Date, RegExp) pass `typeof === 'object'` check and cause undefined behavior [global-exception.filter.ts:25-26] — fixed
+- [x] [Review][Patch] Falsy `details` values (`null`, `0`, `""`) violate Record<string, unknown> type [global-exception.filter.ts:28] — fixed
+- [x] [Review][Patch] Array join on non-strings produces garbage like `"[object]"` or `"null"` [global-exception.filter.ts:33] — fixed
+- [x] [Review][Patch] Production 500 sanitization is inconsistent — details kept if truthy [global-exception.filter.ts:68-73] — fixed
+- [x] [Review][Patch] `null` response causes crash when accessing `.code` [global-exception.filter.ts:27] — fixed
+- [x] [Review][Defer] `ValidationErrorDetail` interface unused — deferred, pre-existing [error-response.interface.ts:10]
+- [x] [Review][Defer] Production mode check evaluates `NODE_ENV` on every request — deferred, pre-existing [global-exception.filter.ts:20]
+- [x] [Review][Defer] Status 415 (Unsupported Media Type) unmapped, falls to INTERNAL_ERROR — deferred, pre-existing [global-exception.filter.ts:57]
+- [x] [Review][Defer] Response object mutation risk (shared reference from getResponse()) — deferred, pre-existing [global-exception.filter.ts:22]

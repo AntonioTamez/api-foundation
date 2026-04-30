@@ -17,3 +17,10 @@
 - **synchronize enabled when NODE_ENV typo** — any non-"production" value (including typos) enables auto-sync
 - **No validation on null/undefined shortCode** — @MinLength doesn't validate null/undefined; may allow invalid states through raw DB inserts
 - **Transaction rollback leaves orphaned url1** — if save succeeds but commitTransaction throws, rollback occurs but code continues
+
+## Deferred from: code review of 1-4-error-handling-foundation (2026-04-29)
+
+- **ValidationErrorDetail interface unused** — exported but not imported or used anywhere in codebase; dead code
+- **Production mode check evaluates `NODE_ENV` on every request** — should be cached at initialization for performance
+- **Status 415 (Unsupported Media Type) unmapped** — falls through to INTERNAL_ERROR instead of semantically correct code
+- **Response object mutation risk** — exception.getResponse() returns a shared reference; mutation before filter.catch() returns affects subsequent calls
