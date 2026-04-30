@@ -4,6 +4,7 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { UuidModule } from './modules/uuid/uuid.module';
 import { Url } from './database/entities/url.entity';
 import { existsSync, mkdirSync } from 'fs';
+import { dirname } from 'path';
 
 function getDatabasePath(): string {
   const dbPath = process.env.DATABASE_PATH;
@@ -17,7 +18,11 @@ function ensureDbDirectory(): void {
   const dbPath = getDatabasePath();
   const dbDir = dirname(dbPath);
   if (dbDir && !existsSync(dbDir)) {
-    mkdirSync(dbDir, { recursive: true });
+    try {
+      mkdirSync(dbDir, { recursive: true });
+    } catch (error) {
+      console.error(`Failed to create database directory: ${dbDir}`, error);
+    }
   }
 }
 
@@ -34,11 +39,6 @@ function getTypeOrmConfig() {
     retryAttempts: 3,
     retryDelay: 1000,
   };
-}
-
-function dirname(filePath: string): string {
-  const lastSep = filePath.lastIndexOf('/');
-  return lastSep > 0 ? filePath.substring(0, lastSep) : '.';
 }
 
 @Module({

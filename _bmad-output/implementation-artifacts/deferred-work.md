@@ -11,3 +11,9 @@
 ## Deferred from: code review of story 1-3-database-configuration (2026-04-29)
 
 - **No index on originalUrl** — queries on original_url column will do full table scans; will need index when URL shortener is implemented
+
+## Deferred from: code review of story 1-3-database-configuration round 2 (2026-04-29)
+
+- **synchronize enabled when NODE_ENV typo** — any non-"production" value (including typos) enables auto-sync
+- **No validation on null/undefined shortCode** — @MinLength doesn't validate null/undefined; may allow invalid states through raw DB inserts
+- **Transaction rollback leaves orphaned url1** — if save succeeds but commitTransaction throws, rollback occurs but code continues

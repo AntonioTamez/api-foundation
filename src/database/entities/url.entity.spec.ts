@@ -63,6 +63,8 @@ describe('Url Entity', () => {
       await queryRunner.commitTransaction();
     } catch {
       await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
     }
 
     const url2 = urlRepository.create({
@@ -71,7 +73,6 @@ describe('Url Entity', () => {
     });
 
     await expect(urlRepository.save(url2)).rejects.toThrow();
-    await queryRunner.release();
   });
 
   it('should validate shortCode format - only alphanumeric with hyphens/underscores', async () => {

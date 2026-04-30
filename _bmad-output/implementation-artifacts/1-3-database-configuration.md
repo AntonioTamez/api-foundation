@@ -163,6 +163,15 @@ MiniMax-M2.7
 - [x] [Review][Patch] No transaction isolation in unique constraint test [src/database/entities/url.entity.spec.ts:48]
 - [x] [Review][Defer] No index on originalUrl [src/database/entities/url.entity.ts] — deferred, pre-existing issue not caused by current change
 
+### Review Findings (Round 2)
+
+- [x] [Review][Patch] dirname ignores Windows backslash paths [src/app.module.ts:39]
+- [x] [Review][Patch] No error handling in ensureDbDirectory [src/app.module.ts:16-22]
+- [x] [Review][Patch] QueryRunner release not in finally block [src/database/entities/url.entity.spec.ts:51-75]
+- [ ] [Review][Defer] synchronize enabled when NODE_ENV typo [src/app.module.ts:32]
+- [ ] [Review][Defer] No validation on null/undefined shortCode [src/database/entities/url.entity.ts:23]
+- [ ] [Review][Defer] Transaction rollback leaves orphaned url1 [src/database/entities/url.entity.spec.ts:64]
+
 ### Review Findings (Original - Patched)
 
 - [ ] [Review][Patch] synchronize:true risks data loss - no environment check [src/app.module.ts:13]
